@@ -30,7 +30,19 @@
     }
     
     if (includeFrame) {
-        description = [description stringByAppendingFormat:@" %@", [self stringForCGRect:view.frame]];
+        if ([view isKindOfClass: [UILabel class]]) {
+            UILabel *label = (UILabel *)view;
+            UIFont *font = label.font;
+
+            description = [NSString stringWithFormat:@"font %@ %.1f", font.fontName, font.pointSize];
+        } else if ([view isKindOfClass: [UIButton class]]) {
+            UIButton *btn = (UIButton *)view;
+            UIFont *font = btn.titleLabel.font;
+
+            description = [NSString stringWithFormat:@"font %@ %.1f", font.fontName, font.pointSize];
+        } else {
+            description = [description stringByAppendingFormat:@" %@", [self stringForCGRect:view.frame]];
+        }
     }
     
     if ([view.accessibilityLabel length] > 0) {
